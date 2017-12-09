@@ -2,9 +2,15 @@
     <html>
         <head>
             <title>woah</title>
+            <style>
+                img {
+                    display: block;
+                    margin: 0 auto;
+                }
+            </style>
         </head>
         <body>
-            <button onclick="woah()">woah</button>
+            <img src="woah.jpg" onclick="woah()">
             <script>
                 var audio = new Audio("woah.mp3");
                 function woah() {audio.play();}
