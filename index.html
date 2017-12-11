@@ -15,7 +15,7 @@
 
     <br>
 
-    <h1 id="id_winner">NO WINNER</h1>
+    <h1 id="id_winner"></h1>
 
 
     <script>
@@ -30,6 +30,8 @@
             for (var i = 0; i < 9; i++) {
                 playingField.push(i);   
             }
+
+        var round = 0;
 
 
 
@@ -186,9 +188,15 @@
                 winner = checkWinner();
 
                 if (winner[0]) {
-                    document.getElementById("id_winner").innerHTML = "WINNER " + winner[1].toUpperCase();
-                    console.log("WINNER IS " + winner[1] + winner[2] + winner[3]);
-                    isTurn = "game_over";
+
+                    if (winner[1] === "tie") {
+                        document.getElementById("id_winner").innerHTML = "THAI";
+                    }
+                    else {
+                        document.getElementById("id_winner").innerHTML = "WINNER " + winner[1].toUpperCase();
+                        console.log("WINNER IS " + winner[1] + winner[2] + winner[3]);
+                        isTurn = "game_over";
+                    }
 
                     // var stx = function(){if (start > 5) {return 3;} else if (start < 3) {return 1;} else {return 2;}};
                     // var sty = (start % 3) + 1;
@@ -273,6 +281,12 @@
                 start = 6;
                 stop = 2;
                 winner = [true, s[0], s[1], s[2], start, stop];
+            }
+
+            round +=1;
+
+            if (round === 9 && winner[0] === false) {
+                winner = [true, "tie"];
             }
 
 
