@@ -1,0 +1,326 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Tic Tac Toe bot</title>
+        <style>
+            canvas {
+                border: 3px solid #7E7C7C;
+            }
+        </style>
+    </head>
+<body>
+    
+    <canvas width="500px" height="500px" id="myCanvas"></canvas>
+
+    <br>
+
+    <h1 id="id_winner"></h1>
+
+
+    <script>
+        
+        var myCanvas = document.getElementById("myCanvas");
+        var ctx = myCanvas.getContext("2d");
+
+        var cw = myCanvas.width;
+        var ch = myCanvas.height;
+
+        var playingField = [];
+            for (var i = 0; i < 9; i++) {
+                playingField.push(i);   
+            }
+
+        var round = 0;
+
+
+
+
+
+
+
+
+
+        console.log("w: " + cw + " h: " + ch);
+
+
+
+
+
+
+
+        ctx.moveTo(cw/3,0);
+        ctx.lineTo(cw/3,ch);
+        ctx.moveTo(2*cw/3,0);
+        ctx.lineTo(2*cw/3,ch);
+        ctx.moveTo(0,ch/3);
+        ctx.lineTo(cw,ch/3);
+        ctx.moveTo(0,2*ch/3);
+        ctx.lineTo(cw,2*ch/3);
+        ctx.stroke();
+
+
+
+
+
+
+
+
+        var isTurn = 'cross';
+        var winner = [false];
+        var start = false;
+        var stop = false;
+
+        var robotTurn = false;
+
+        myCanvas.onclick = function(evt) {
+
+            var mousepos = getPos(myCanvas, evt);
+            var mx = mousepos.x;
+            var my = mousepos.y;
+
+            var clickedSquare = getSquare(mx,my);
+
+            var squareCenterX = getX(clickedSquare);
+            var squareCenterY = getY(clickedSquare);
+
+            drawTurn(clickedSquare, squareCenterX, squareCenterY);
+
+            
+
+
+            // check which square you clicked
+            
+
+            console.log(playingField);
+            console.log(playingField[(clickedSquare.x-1)*3 + clickedSquare.y-1]);
+            console.log("turn is " + isTurn);
+            // console.log("You clicked square " + clickedSquare.x + ", " + clickedSquare.y);
+
+
+
+
+
+            // check if square is available
+            
+            // if yes: mark square, and mark as unavalable
+
+
+
+
+            // if (isTurn === 'circle') {
+            //     drawCircle(mx,my,cw/6);
+            //     isTurn = 'cross';
+            //     }
+            // else {
+            //     drawCross(mx,my,cw/6);
+            //     isTurn = 'circle';
+            //     }
+            
+
+        }
+
+        function getX(clickedSquare) {
+            return ((clickedSquare.x * cw/3) - cw/6);
+        }
+        function getY(clickedSquare) {
+            return ((clickedSquare.y * ch/3) - ch/6);
+        }
+
+
+
+
+
+
+
+        function getPos(canvas, evt) {
+            var rect = myCanvas.getBoundingClientRect();
+            return {
+                x: evt.clientX - rect.left,
+                y: evt.clientY - rect.top
+            }
+        }
+
+        function getSquare(x,y) {
+            var nx = 0;
+            var ny = 0;
+
+            if (x > 2*cw/3) {nx = 3;}
+            else if (x > cw/3) {nx = 2;}
+            else {nx = 1;}
+
+            if (y > 2*ch/3) {ny = 3;}
+            else if (y > cw/3) {ny = 2;}
+            else {ny = 1;}
+
+            return {
+                x: nx,
+                y: ny
+            };
+        }
+
+
+
+        function drawTurn(square, x, y) {
+            var spot = playingField[(square.x-1)*3 + square.y - 1];
+            if (spot != 'circle' && spot != 'cross') {
+
+                // console.log("square is empty");
+
+                if (isTurn === 'circle') {
+                    // console.log("drawing circle");
+                    drawCircle(x,y,cw/6);
+                    playingField[(square.x-1)*3 + square.y - 1] = "circle";
+                    isTurn = 'cross';
+
+                    // robotTurn = true;
+                    // f_robotTurn();
+                }
+                else if (isTurn === 'cross') {
+                    // console.log("drawing cross");
+                    drawCross(x,y,cw/6);
+                    playingField[(square.x-1)*3 + square.y - 1] = "cross";
+                    isTurn = 'circle';
+
+                    // robotTurn = false;
+                }
+
+                winner = checkWinner();
+
+                if (winner[0]) {
+
+                    if (winner[1] === "tie") {
+                        document.getElementById("id_winner").innerHTML = "THAI";
+                    }
+                    else {
+                        document.getElementById("id_winner").innerHTML = "WINNER " + winner[1].toUpperCase();
+                        console.log("WINNER IS " + winner[1] + winner[2] + winner[3]);
+                        isTurn = "game_over";
+                    }
+
+                    // var stx = function(){if (start > 5) {return 3;} else if (start < 3) {return 1;} else {return 2;}};
+                    // var sty = (start % 3) + 1;
+                    // var ex = function(){if (stop > 5) {return 3;} else if (stop < 3) {return 1;} else {return 2;}};
+                    // var ey = (stop % 3) + 1;
+
+                    // ctx.lineWidth = 5;
+                    // ctx.moveTo((stx * cw/3) - cw/6, (sty * ch/3) - ch/6);
+                    // ctx.lineTo((ex * cw/3) - cw/6, (ey * ch/3) - ch/6);
+                    // ctx.stroke();
+                }
+            }
+        }
+
+        // function f_robotTurn() {
+        //     while (robotTurn) {
+        //         var p = Math.floor(Math.random()*9+1);
+        //         var robotpick = {
+        //             x: function(){if (p > 5){return 3;} else if (p < 3){return 1;} else {return 2;}},
+        //             y: Number((p%3)+1)
+        //         };
+        //         var centerx = getX(robotpick);
+        //         var centery = getY(robotpick);
+
+        //         drawTurn(robotpick, centerx, centery);
+        //     }
+        // }
+
+
+
+        function checkWinner() {
+            var s = [1,2,3];
+
+            var winner = [false];
+
+
+            // CHECK HORISONTAL ROWS
+            for (var i = 1; i < 4; i++) {
+                for (var j = 1; j < 4; j++) {
+                    s[j-1] = playingField[(j-1)*3 + i -1];
+                }
+                console.log("HORISONTAL row " + i + " = " + s[0] + s[1] + s[2]);
+                if (s[0] === s[1] && s[1] === s[2]) {
+                    start = (i-1);
+                    stop = (i-1) + 5;
+                    winner = [true, s[0], s[1], s[2], start, stop];
+                }
+            }
+
+            // CHECK VERTICAL ROWS
+            for (var i = 1; i < 4; i++) {
+                for (var j = 1; j < 4; j++) {
+                    s[j-1] = playingField[(i-1)*3 + j-1];
+                }
+                console.log("VERTICAL row " + i + " = " + s[0] + s[1] + s[2]);
+                if (s[0] === s[1] && s[1] === s[2]) {
+                    start = (i-1)*3;
+                    stop = i+1+(i-1)*2;
+                    winner = [true, s[0], s[1], s[2], start, stop];
+                }
+            }
+
+            // CHECK DIAGONAL   LEFT TOP - BOTTOM RIGHT
+            s[0] = playingField[0];
+            s[1] = playingField[4];
+            s[2] = playingField[8];
+
+            console.log("Diagonal 1 = " + s[0] + s[1] + s[2]);
+            if (s[0] === s[1] && s[1] === s[2]) {
+                start = 0;
+                stop = 8;
+                winner = [true, s[0], s[1], s[2], [start, stop]];
+            }
+
+            // CHECK DIAGONAL   RIGHT TOP - LEFT BOTTOM
+            s[0] = playingField[6];
+            s[1] = playingField[4];
+            s[2] = playingField[2];
+
+            console.log("Diagonal 2 = " + s[0] + s[1] + s[2]);
+            if (s[0] === s[1] && s[1] === s[2]) { 
+                start = 6;
+                stop = 2;
+                winner = [true, s[0], s[1], s[2], start, stop];
+            }
+
+            round +=1;
+
+            if (round === 9 && winner[0] === false) {
+                winner = [true, "tie"];
+            }
+
+
+            return winner;
+        }
+
+
+
+
+
+
+
+
+
+
+        function drawCircle(x,y,r) {
+            ctx.beginPath();
+            ctx.arc(x,y,r,0,2*Math.PI);
+            ctx.stroke();
+        }
+
+        function drawCross(x,y,s) {
+            ctx.moveTo(x-s,y-s);
+            ctx.lineTo(x+s,y+s);
+            // console.log("drawing line from " + Number(x-s) + ", " + Number(y-s) + " to " + Number(x+s) + ", " + Number(y+s));
+
+            ctx.moveTo(x-s,y+s);
+            ctx.lineTo(x+s,y-s);
+            ctx.stroke();
+        }
+
+
+
+    
+    </script>
+</body>
+</html>
