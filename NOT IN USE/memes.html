@@ -1,0 +1,28 @@
+<!doctype html>
+    <html>
+        <head>
+            <title>woah</title>
+            <style>
+                img {
+                    width: 200px;
+                    height: 200px;
+                    display: block;
+                    margin: 0 auto;
+                }
+            </style>
+        </head>
+        <body>
+            <img src="woah.jpg" onclick="woah()">
+            <img id="roblox" src="roblox_alive.jpg" onclick="uff()">
+            <script>
+                var woah_sound = new Audio("woah.mp3");
+                var uff_sound = new Audio("uff.mp3");
+                function woah() {woah_sound.play();}
+                function uff() {
+                    uff_sound.play();
+                    document.getElementById("roblox").src = "roblox_ded.jpg";
+                }
+                // Hello gais
+            </script>
+        </body>
+    </html>
