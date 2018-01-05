@@ -1,7 +1,7 @@
-<!doctype html>
-<html>
-    <head>
-        <meta charset="UTF-8">
+<!DOCTYPE html>
+<!-- saved from url=(0027)https://geventax.github.io/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
         <title>Tic Tac Toe bot</title>
         <style>
             canvas {
@@ -71,7 +71,8 @@
         var start = false;
         var stop = false;
 
-        var robotTurn = false;
+        var isRobotTurn = 1;
+        var taken = true;
 
         myCanvas.onclick = function(evt) {
 
@@ -173,6 +174,7 @@
                     playingField[(square.x-1)*3 + square.y - 1] = "circle";
                     isTurn = 'cross';
 
+                    taken = true;
                     // robotTurn = true;
                     // f_robotTurn();
                 }
@@ -198,33 +200,33 @@
                         isTurn = "game_over";
                     }
 
-                    // var stx = function(){if (start > 5) {return 3;} else if (start < 3) {return 1;} else {return 2;}};
-                    // var sty = (start % 3) + 1;
-                    // var ex = function(){if (stop > 5) {return 3;} else if (stop < 3) {return 1;} else {return 2;}};
-                    // var ey = (stop % 3) + 1;
+                }
 
-                    // ctx.lineWidth = 5;
-                    // ctx.moveTo((stx * cw/3) - cw/6, (sty * ch/3) - ch/6);
-                    // ctx.lineTo((ex * cw/3) - cw/6, (ey * ch/3) - ch/6);
-                    // ctx.stroke();
+
+                isRobotTurn += 1;
+                if (winner[0] == false && isRobotTurn % 2 === 0) {
+                    setTimeout(robotTurnWithDelay, 1500);
                 }
             }
         }
 
-        // function f_robotTurn() {
-        //     while (robotTurn) {
-        //         var p = Math.floor(Math.random()*9+1);
-        //         var robotpick = {
-        //             x: function(){if (p > 5){return 3;} else if (p < 3){return 1;} else {return 2;}},
-        //             y: Number((p%3)+1)
-        //         };
-        //         var centerx = getX(robotpick);
-        //         var centery = getY(robotpick);
+        function robotTurnWithDelay() {
+            console.log("robot turn");
+            while (taken) {
+                var robotX = Math.floor(Math.random()*cw);
+                var robotY = Math.floor(Math.random()*ch);
 
-        //         drawTurn(robotpick, centerx, centery);
-        //     }
-        // }
+                var robotClickedSquare = getSquare(robotX, robotY);
 
+                var spot = playingField[(robotClickedSquare.x-1)*3 + robotClickedSquare.y - 1];
+                if (spot != 'circle' && spot != 'cross') {
+                    taken = false;
+                }
+            }
+            
+            drawTurn(robotClickedSquare, getX(robotClickedSquare), getY(robotClickedSquare));
+
+        }
 
 
         function checkWinner() {
@@ -322,5 +324,5 @@
 
     
     </script>
-</body>
-</html>
+
+</body></html>
