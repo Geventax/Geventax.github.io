@@ -1,328 +1,274 @@
-<!DOCTYPE html>
-<!-- saved from url=(0027)https://geventax.github.io/ -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
-        <title>Tic Tac Toe bot</title>
+<!doctype html>
+<html>
+    <head>
+
         <style>
-            canvas {
-                border: 3px solid #7E7C7C;
+            div {
+                width: 100px;
+                height: 100px;
+                position: absolute;
+                transition: 0.5s;
+            }
+
+            #butt {
+                margin-left: 500px;
+            }
+
+            #board {
+                width: 400px;
+                height: 400px;
+                border: 1px solid blue;
+            }
+
+            .removed {
+                background: rgba(255, 255, 255, 0);
+                margin-top: -200px;
+                transition: 0s;
+            }
+
+            .block2 {
+                background: rgb(0, 0, 0);
+            }
+
+            .block4 {
+                background: rgb(107, 107, 107)
+            }
+
+            .block8 {
+                background: rgb(0, 56, 3);
+            }
+
+            .block16 {
+                background: green;
+            }
+
+            .block32 {
+                background: rgb(0, 255, 13);
+            }
+
+            .block64 {
+                background: violet;
+            }
+
+            .block128 {
+                background: purple;
+            }
+
+            .block256 {
+                background: rgb(168, 19, 43);
+            }
+
+            .block512 {
+                background: red
+            }
+
+            .block1024 {
+                background: rgb(255, 94, 0);
+            }
+
+            .block2048 {
+                background: gold;
             }
         </style>
+
     </head>
-<body>
-    
-    <canvas width="500px" height="500px" id="myCanvas"></canvas>
-
-    <br>
-
-    <h1 id="id_winner"></h1>
-
-
-    <script>
+    <body>
         
-        var myCanvas = document.getElementById("myCanvas");
-        var ctx = myCanvas.getContext("2d");
 
-        var cw = myCanvas.width;
-        var ch = myCanvas.height;
+        <div id="board">
 
-        var playingField = [];
-            for (var i = 0; i < 9; i++) {
-                playingField.push(i);   
+        </div>
+            
+        <script>
+
+            window.onload = createRandomBlock;
+
+            var numberOfX = 4;
+            var numberOfY = 4;
+        
+            var gameboard = [[],[],[],[]];
+
+            for (var y = 0; y < numberOfY; y++) {
+                console.log(gameboard);
+                for (var x = 0; x < numberOfX; x++) {         //populates board with 0s
+                    gameboard[x].push(0);
+                }
             }
 
-        var round = 0;
+            //test start
+            console.log(gameboard);
+
+            // gameboard[3][0] = 8;    
+
+            // document.getElementById("board").innerHTML += "<div id='0x3' class='block8' style='margin-top:300px;'></div>";
+            // document.getElementById("board").innerHTML += "<div id='0x2' class='block8' style='margin-top:200px;'></div>";
+            // //test end
 
 
-
-
-
-
-
-
-
-        console.log("w: " + cw + " h: " + ch);
-
-
-
-
-
-
-
-        ctx.moveTo(cw/3,0);
-        ctx.lineTo(cw/3,ch);
-        ctx.moveTo(2*cw/3,0);
-        ctx.lineTo(2*cw/3,ch);
-        ctx.moveTo(0,ch/3);
-        ctx.lineTo(cw,ch/3);
-        ctx.moveTo(0,2*ch/3);
-        ctx.lineTo(cw,2*ch/3);
-        ctx.stroke();
-
-
-
-
-
-
-
-
-        var isTurn = 'cross';
-        var winner = [false];
-        var start = false;
-        var stop = false;
-
-        var isRobotTurn = 1;
-        var taken = true;
-
-        myCanvas.onclick = function(evt) {
-
-            var mousepos = getPos(myCanvas, evt);
-            var mx = mousepos.x;
-            var my = mousepos.y;
-
-            var clickedSquare = getSquare(mx,my);
-
-            var squareCenterX = getX(clickedSquare);
-            var squareCenterY = getY(clickedSquare);
-
-            drawTurn(clickedSquare, squareCenterX, squareCenterY);
-
-            
-
-
-            // check which square you clicked
-            
-
-            console.log(playingField);
-            console.log(playingField[(clickedSquare.x-1)*3 + clickedSquare.y-1]);
-            console.log("turn is " + isTurn);
-            // console.log("You clicked square " + clickedSquare.x + ", " + clickedSquare.y);
-
-
-
-
-
-            // check if square is available
-            
-            // if yes: mark square, and mark as unavalable
-
-
-
-
-            // if (isTurn === 'circle') {
-            //     drawCircle(mx,my,cw/6);
-            //     isTurn = 'cross';
-            //     }
-            // else {
-            //     drawCross(mx,my,cw/6);
-            //     isTurn = 'circle';
-            //     }
-            
-
-        }
-
-        function getX(clickedSquare) {
-            return ((clickedSquare.x * cw/3) - cw/6);
-        }
-        function getY(clickedSquare) {
-            return ((clickedSquare.y * ch/3) - ch/6);
-        }
-
-
-
-
-
-
-
-        function getPos(canvas, evt) {
-            var rect = myCanvas.getBoundingClientRect();
-            return {
-                x: evt.clientX - rect.left,
-                y: evt.clientY - rect.top
-            }
-        }
-
-        function getSquare(x,y) {
-            var nx = 0;
-            var ny = 0;
-
-            if (x > 2*cw/3) {nx = 3;}
-            else if (x > cw/3) {nx = 2;}
-            else {nx = 1;}
-
-            if (y > 2*ch/3) {ny = 3;}
-            else if (y > cw/3) {ny = 2;}
-            else {ny = 1;}
-
-            return {
-                x: nx,
-                y: ny
-            };
-        }
-
-
-
-        function drawTurn(square, x, y) {
-            var spot = playingField[(square.x-1)*3 + square.y - 1];
-            if (spot != 'circle' && spot != 'cross') {
-
-                // console.log("square is empty");
-
-                if (isTurn === 'circle') {
-                    // console.log("drawing circle");
-                    drawCircle(x,y,cw/6);
-                    playingField[(square.x-1)*3 + square.y - 1] = "circle";
-                    isTurn = 'cross';
-
-                    taken = true;
-                    // robotTurn = true;
-                    // f_robotTurn();
+            window.addEventListener('keydown', function(e) {
+                switch (e.keyCode) {
+                    case 38:
+                        move('up');
+                        break;
+                    case 40:
+                        move('down');
+                        break;
+                    case 37:
+                        move('left');
+                        break;
+                    case 39:
+                        move('right');
+                        break;
                 }
-                else if (isTurn === 'cross') {
-                    // console.log("drawing cross");
-                    drawCross(x,y,cw/6);
-                    playingField[(square.x-1)*3 + square.y - 1] = "cross";
-                    isTurn = 'circle';
+            });
 
-                    // robotTurn = false;
-                }
 
-                winner = checkWinner();
 
-                if (winner[0]) {
 
-                    if (winner[1] === "tie") {
-                        document.getElementById("id_winner").innerHTML = "THAI";
+            function createRandomBlock() {
+                var anySpotAvailable = false;
+                for (var x = 0; x < numberOfX; x++) {
+                    for (var y = 0; y < numberOfY; y++) {
+                        if (gameboard[y][x]===0) {
+                            anySpotAvailable = true;       //test if there are any spots available
+                        }                                   //if there aren't, don't proceed
                     }
-                    else {
-                        document.getElementById("id_winner").innerHTML = "WINNER " + winner[1].toUpperCase();
-                        console.log("WINNER IS " + winner[1] + winner[2] + winner[3]);
-                        isTurn = "game_over";
+                }
+                
+                while (anySpotAvailable) {              //loop indefinetly
+                    var tempx = Math.floor(Math.random()*4); //create random x 0-3
+                    var tempy = Math.floor(Math.random()*4); //create random y 0-3
+                    console.log(tempx + ' ' + tempy);
+                    if (gameboard[tempy][tempx] === 0) { //check if available
+                        var tempBlock = Math.floor(Math.random()*2+1) * 2; //randomly creates a number 2 or 4
+                        gameboard[tempy][tempx] = tempBlock; //assigns 2 or 4 to available block
+                        console.log(gameboard[tempy][tempx]);
+                        document.getElementById("board").innerHTML += "<div id='"+tempx+"x"+tempy+"' class='block"+tempBlock+"' style='margin-left: "+tempx*100+"px; margin-top: "+tempy*100+"px'></div>";
+                        return; //exits loop if available square is found, and square is set
                     }
-
                 }
 
-
-                isRobotTurn += 1;
-                if (winner[0] == false && isRobotTurn % 2 === 0) {
-                    setTimeout(robotTurnWithDelay, 1500);
-                }
+                console.log("No more spots available");
             }
-        }
 
-        function robotTurnWithDelay() {
-            console.log("robot turn");
-            while (taken) {
-                var robotX = Math.floor(Math.random()*cw);
-                var robotY = Math.floor(Math.random()*ch);
 
-                var robotClickedSquare = getSquare(robotX, robotY);
 
-                var spot = playingField[(robotClickedSquare.x-1)*3 + robotClickedSquare.y - 1];
-                if (spot != 'circle' && spot != 'cross') {
-                    taken = false;
-                }
-            }
+
+
+
             
-            drawTurn(robotClickedSquare, getX(robotClickedSquare), getY(robotClickedSquare));
+            function move(d) {
 
-        }
+                if (d === 'down') {
+                    for (var x = 0; x < numberOfX; x++) {
+                        for (var y = 3; y > 0; y--) {
+                            if (gameboard[y][x] === gameboard[y-1][x] && gameboard[y][x] != 0) {
+                                gameboard[y][x] = gameboard[y][x]*2;
+                                gameboard[y-1][x] = 0;
+                                document.getElementById(x+"x"+y).className = "block" + gameboard[y][x];
+                                document.getElementById(x+"x"+(y-1)).className = "removed";
+                                document.getElementById(x+"x"+(y-1)).id = "x";
+                            }
+                        }
+                        var control = true;
+                        while (control) {
+                            control = false;
+                            for (var t = 3; t > 0; t--) {
+                                if (gameboard[t][x] === 0 && gameboard[t-1][x] != 0) {
+                                    gameboard[t][x] = gameboard[t-1][x];
+                                    gameboard[t-1][x] = 0;
+                                    document.getElementById(x+"x"+Number(t-1)).style.marginTop = t*100 + "px";
+                                    document.getElementById(x+"x"+Number(t-1)).id = x+"x"+t;
+                                    control = true;
+                                }
+                            }
+                        }                    
+                    }
+                } //end bracket if down
+                else if (d === "up") {
+                    for (var x = 0; x < numberOfX; x++) {
+                        for (var y = 0; y < 3; y++) {
+                            if (gameboard[y][x] === gameboard[y+1][x] && gameboard[y][x] != 0) {
+                                gameboard[y][x] = gameboard[y][x]*2;
+                                gameboard[y+1][x] = 0;
+                                document.getElementById(x+"x"+y).className = "block" + gameboard[y][x];
+                                document.getElementById(x+"x"+(y+1)).className = "removed";
+                                document.getElementById(x+"x"+(y+1)).id = "x";
+                            }
+                        }
+                        var control = true;
+                        while (control) {
+                            control = false;
+                            for (var t = 0; t < 3; t++) {
+                                if (gameboard[t][x] === 0 && gameboard[t+1][x] != 0) {
+                                    gameboard[t][x] = gameboard[t+1][x];
+                                    gameboard[t+1][x] = 0;
+                                    document.getElementById(x+"x"+Number(t+1)).style.marginTop = t*100 + "px";
+                                    document.getElementById(x+"x"+Number(t+1)).id = x+"x"+t;
+                                    control = true;
+                                }
+                            }
+                        }                    
+                    }
+                }//end bracket if up
+                else if (d === "left") {
+                    for (var y = 0; y < 4; y++) {
+                        for (var x = 0; x < 3; x++) {
+                            if (gameboard[y][x] === gameboard[y][x+1] && gameboard[y][x] != 0){
+                                gameboard[y][x] = gameboard[y][x]*2;
+                                gameboard[y][x+1] = 0;
+                                document.getElementById(x+"x"+y).className = "block" + gameboard[y][x];
+                                document.getElementById((x+1)+"x"+y).className = "removed";
+                                document.getElementById((x+1)+"x"+y).id = "x";
+                            }
+                        }
+                        var control = true;
+                        while (control) {
+                            control = false;
+                            for (var t = 0; t < 3; t++) {
+                                if (gameboard[y][t] === 0 && gameboard[y][t+1] != 0) {
+                                    gameboard[y][t] = gameboard[y][t+1];
+                                    gameboard[y][t+1] = 0;
+                                    document.getElementById(Number(t+1)+"x"+y).style.marginLeft = t*100 + "px";
+                                    document.getElementById(Number(t+1)+"x"+y).id = t+"x"+y;
+                                    control = true;
+                                }
+                            }
+                        }
+                    }
+                }//end bracket if left
+                else if (d === "right") {
+                    for (var y = 0; y < 4; y++) {
+                        for (var x = 3; x > 0; x--) {
+                            if (gameboard[y][x] === gameboard[y][x-1] && gameboard[y][x] != 0){
+                                gameboard[y][x] = gameboard[y][x]*2;
+                                gameboard[y][x-1] = 0;
+                                document.getElementById(x+"x"+y).className = "block" + gameboard[y][x];
+                                document.getElementById((x-1)+"x"+y).className = "removed";
+                                document.getElementById((x-1)+"x"+y).id = "x";
+                            }
+                        }
+                        var control = true;
+                        while (control) {
+                            control = false;
+                            for (var t = 3; t > 0; t--) {
+                                if (gameboard[y][t] === 0 && gameboard[y][t-1] != 0) {
+                                    gameboard[y][t] = gameboard[y][t-1];
+                                    gameboard[y][t-1] = 0;
+                                    document.getElementById(Number(t-1)+"x"+y).style.marginLeft = t*100 + "px";
+                                    document.getElementById(Number(t-1)+"x"+y).id = t+"x"+y;
+                                    control = true;
+                                }
+                            }
+                        }
+                    }
+                }//end bracket if right
+
+                setTimeout(createRandomBlock, 500);
+            } //end bracket for function move
 
 
-        function checkWinner() {
-            var s = [1,2,3];
 
-            var winner = [false];
-
-
-            // CHECK HORISONTAL ROWS
-            for (var i = 1; i < 4; i++) {
-                for (var j = 1; j < 4; j++) {
-                    s[j-1] = playingField[(j-1)*3 + i -1];
-                }
-                console.log("HORISONTAL row " + i + " = " + s[0] + s[1] + s[2]);
-                if (s[0] === s[1] && s[1] === s[2]) {
-                    start = (i-1);
-                    stop = (i-1) + 5;
-                    winner = [true, s[0], s[1], s[2], start, stop];
-                }
-            }
-
-            // CHECK VERTICAL ROWS
-            for (var i = 1; i < 4; i++) {
-                for (var j = 1; j < 4; j++) {
-                    s[j-1] = playingField[(i-1)*3 + j-1];
-                }
-                console.log("VERTICAL row " + i + " = " + s[0] + s[1] + s[2]);
-                if (s[0] === s[1] && s[1] === s[2]) {
-                    start = (i-1)*3;
-                    stop = i+1+(i-1)*2;
-                    winner = [true, s[0], s[1], s[2], start, stop];
-                }
-            }
-
-            // CHECK DIAGONAL   LEFT TOP - BOTTOM RIGHT
-            s[0] = playingField[0];
-            s[1] = playingField[4];
-            s[2] = playingField[8];
-
-            console.log("Diagonal 1 = " + s[0] + s[1] + s[2]);
-            if (s[0] === s[1] && s[1] === s[2]) {
-                start = 0;
-                stop = 8;
-                winner = [true, s[0], s[1], s[2], [start, stop]];
-            }
-
-            // CHECK DIAGONAL   RIGHT TOP - LEFT BOTTOM
-            s[0] = playingField[6];
-            s[1] = playingField[4];
-            s[2] = playingField[2];
-
-            console.log("Diagonal 2 = " + s[0] + s[1] + s[2]);
-            if (s[0] === s[1] && s[1] === s[2]) { 
-                start = 6;
-                stop = 2;
-                winner = [true, s[0], s[1], s[2], start, stop];
-            }
-
-            round +=1;
-
-            if (round === 9 && winner[0] === false) {
-                winner = [true, "tie"];
-            }
-
-
-            return winner;
-        }
-
-
-
-
-
-
-
-
-
-
-        function drawCircle(x,y,r) {
-            ctx.beginPath();
-            ctx.arc(x,y,r,0,2*Math.PI);
-            ctx.stroke();
-        }
-
-        function drawCross(x,y,s) {
-            ctx.moveTo(x-s,y-s);
-            ctx.lineTo(x+s,y+s);
-            // console.log("drawing line from " + Number(x-s) + ", " + Number(y-s) + " to " + Number(x+s) + ", " + Number(y+s));
-
-            ctx.moveTo(x-s,y+s);
-            ctx.lineTo(x+s,y-s);
-            ctx.stroke();
-        }
-
-
-
-    
-    </script>
-
-</body></html>
+        </script>
+    </body>
+</html>
