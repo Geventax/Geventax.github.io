@@ -165,6 +165,9 @@ window.onload = function(){
 
     generateBombs();
     // showBombs();
+
+    alert("Welcom 2 minesweper. Clic bomb to toggle defuse and marking");
+
     $("#counter").html(difficulty);
 
     $(".block").on("click", function(e)
