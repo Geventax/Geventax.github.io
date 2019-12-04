@@ -1,0 +1,55 @@
+#top_header
+{
+    display: block;
+    width: 100%;
+    height: 120px;
+    background: #b7a3c7;
+}
+
+#title
+{
+    height: 100%;
+    width: 100%;
+    font-family: lemonmilk;
+    font-size: 3em;
+    margin-left: 2.3%;
+    padding-top: 3.5vh;
+}
+
+header
+{
+    display: block;
+    width: 100%;
+    height: 80px;
+    background: #604a71;
+    font-family: lemonmilk;
+    font-size: 1.3em;
+}
+
+#home_div, #gallery_div, #game_div
+{
+    height: 100%;
+    width: 24%;
+    float: left;
+    /* border: 1px solid black; */
+}
+
+#home, #gallery, #game
+{
+    position: relative;
+    width: 100%;
+    margin: 0;
+    float: left;
+    margin-top: 1.2vh;
+    margin-left: auto;
+    text-align: center;
+
+    color: rgb(226, 226, 226);
+    font-size: 2em;
+}
+
+#home_div:hover, #gallery_div:hover, #game_div:hover, .current
+{
+    background: rgb(66, 50, 78);
+    cursor: pointer;
+}

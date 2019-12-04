@@ -1,0 +1,64 @@
+@font-face
+{
+    src: url(fonts/LemonMilk.otf);
+    font-family: lemonmilk;
+}
+ 
+@font-face
+{
+    src: url(fonts/Quicksand_Book.otf);
+    font-family: quicksand;
+}
+
+*
+{
+    margin: 0;
+}
+
+body
+{
+    background: #535353;
+    /* overflow: hidden; */
+    margin: 0;
+    padding: 0;
+}
+
+#wrapper
+{
+    display: block;
+    width: 80vw;
+    height: 100vh;
+    background: #2f2f2f;
+    margin-left: 10%;
+    /* margin-top: -8px; */
+}
+
+/* SSSSSSSS */
+
+#game_wrapper
+{
+    display: block;
+    height: 65%;
+    width: 80%;
+    background: rgb(85, 85, 85);
+    margin-left: 10%;
+    margin-top: 2%;
+}
+
+#game_container
+{
+    display: block;
+    position: absolute;
+    height: 500px;
+    width: 500px;
+    margin-top: 5vh;
+    margin-left: calc(((0.8 * 80vw) - 500px)/2);
+    background: #373737;
+}
+
+.gameImg
+{
+    margin: 0;
+    padding: 0;
+    float: left;
+}

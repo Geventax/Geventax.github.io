@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>SpaceKittens</title>
+        <link rel="stylesheet" href="styleIndex.css">
+        <link rel="stylesheet" href="header/header.css">
+    </head>
+    <body>
+         
+
+        <div id="wrapper">
+
+            <!-- header goes here -->
+
+            <article>
+                <div id="info_text">
+                    <p>Welcome to SpaceKittens, the one and only website you<br>will ever need to fulfill your need for pictures<br>of kittens in space</p>
+                    <p>Here you will find the very (very) poorly photoshopped<br>images of cats in space or other locations<br>(just kidding, it's always in space)</p>
+                    <p>Have fun : ) <span id="uwu">uwu</span></p>
+                </div>
+                
+                <div id="slideshow">
+                    
+                    <div id="div_slideshow_image">
+                        <img src="images/cats/cat9.jpg" alt="is a cat" id="img_slideshow_image">
+                    </div>
+
+                    <div id="div_slideshow_controls">
+                        <img src="images/other/arrow_left.png" alt="left" class="img_control_arrow" id="arrow_left" onclick="imageSlideshow(-1)">
+                        <img src="images/cats/cat8.jpg" alt="is preview" class="img_mini_preview" id="preview_1" onclick="imageSlideshow(-1)">
+                        <img src="images/cats/cat9.jpg" alt="is preview" class="img_mini_preview preview_active" id="preview_2">
+                        <img src="images/cats/cat10.jpg" alt="is preview" class="img_mini_preview" id="preview_3" onclick="imageSlideshow(1)">
+                        <img src="images/other/arrow_right.png" alt="forward" class="img_control_arrow" id="arrow_right" onclick="imageSlideshow(1)">
+                    </div>
+                    
+                </div>
+
+                
+            </article>
+
+            <div id="img_of_the_day">
+                <h2>Newest Image</h2>
+                <!-- img of the day goes here -->
+                <img src="images/cats/cat18.jpg" alt="cat">
+            </div>
+
+        </div>
+
+        <div id="home_page"></div>
+        <script src="scriptIndex.js"></script>
+        <script src="header/header.js"></script>
+    </body>
+</html>

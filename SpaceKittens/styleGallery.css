@@ -1,0 +1,71 @@
+@font-face
+{
+    src: url(fonts/LemonMilk.otf);
+    font-family: lemonmilk;
+}
+ 
+@font-face
+{
+    src: url(fonts/Quicksand_Book.otf);
+    font-family: quicksand;
+}
+
+*
+{
+    margin: 0;
+}
+
+body
+{
+    background: #535353;
+    /* overflow: hidden; */
+    margin: 0;
+    padding: 0;
+}
+
+#wrapper
+{
+    display: block;
+    width: 80vw;
+    height: 155vh;
+    background: #2f2f2f;
+    margin-left: 10%;
+    /* margin-top: -8px; */
+}
+
+/* sssssssssssssssss */
+
+#gallery_container
+{
+    /* background: red; */
+
+    width: 95%;
+    height: 80%;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+
+#vh_div
+{
+    position: absolute;
+    height: 100vh;
+    display: hidden;
+}
+
+img
+{
+    display: block;
+    float: left;
+    /* margin-left: 100px; */
+    height: 20vh;
+    border: 1px solid white;
+}
+
+.image_spacer
+{
+    height: 5vh;
+    width: 100%;
+    /* background: orange; */
+    float: left;
+    display: block;
+}
