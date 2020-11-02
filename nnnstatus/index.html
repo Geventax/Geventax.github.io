@@ -5,15 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My No Nut November Status</title>
     <style>
-        .nnnstatus {
+        body {
+            background-color: rgb(75, 75, 75);
+            font-size: 20px;
+        }
+        #wrapper {
+            width: 35%;
+            background-color: rgb(146, 146, 146);
+            margin: 0 auto;
+        }
+        h1 {
+            margin: 0 auto;
+            height: 100%;
+            width: 80%;
+        }
+        #list {
+            margin: 0 auto;
+            height: 100%;
+            width: 40%;
+        }
+        #day1 {
             color: red;
         }
+        #day2 {
+            color: orange;
+            font-family: "Comic Sans MS", "Comic Sans", cursive;
+        }
+
+        @media only screen and (max-width: 1000px) {
+            #wrapper {
+                width: 100%;
+            }
+        }
+        
     </style>
 </head>
 <body>
-    <h1>No Nut November Status:</h1>
-    <ul>
-        <li>Day 1: <span class="nnnstatus">NO NUT</span></li>
-    </ul>
+    <div id="wrapper">
+        <h1>No Nut November Status:</h1>
+        <br>
+        <br>
+        <ul id="list">
+            <li>Day 1: <span id="day1">NO NUT</span></li>
+            <li>Day 2: <span id="day2">NO NUT</span></li>
+        </ul>
+    </div>
 </body>
 </html>
