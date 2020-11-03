@@ -11,6 +11,7 @@
         }
         #wrapper {
             width: 35%;
+            height: 50vh;
             background-color: rgb(146, 146, 146);
             margin: 0 auto;
         }
@@ -21,6 +22,7 @@
         }
         #list {
             margin: 0 auto;
+            margin-top: -45vh;
             height: 100%;
             width: 40%;
         }
@@ -30,6 +32,9 @@
         #day2 {
             color: orange;
             font-family: "Comic Sans MS", "Comic Sans", cursive;
+        }
+        #day3 {
+            font-family: Verdana, Tahoma, sans-serif;
         }
 
         @media only screen and (max-width: 1000px) {
@@ -48,7 +53,28 @@
         <ul id="list">
             <li>Day 1: <span id="day1">NO NUT</span></li>
             <li>Day 2: <span id="day2">NO NUT</span></li>
+            <li>Day 3: <span id="day3"><span id="day3.1">N</span><span id="day3.2">O</span><span> </span><span id="day3.3">N</span><span id="day3.4">U</span><span id="day3.5">T</span></span></li>
         </ul>
     </div>
+
+    <script>
+        // DAY 3 SCRIPT START
+        var colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
+        var colorCounter = 0;
+
+        function changeColor() {
+            for (var x = 0; x < 5; x++) {
+                document.getElementById("day3." + (5-x)).style.color = colors[(colorCounter + x) % colors.length];
+            }
+            colorCounter++;
+        }
+        // DAY 3 SCRIPT END
+
+        window.onload = function() {
+            // DAY 3
+            changeColor();
+            setInterval(changeColor, 500);
+        }
+    </script>
 </body>
 </html>
