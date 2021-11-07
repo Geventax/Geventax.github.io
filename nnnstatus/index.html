@@ -68,22 +68,33 @@
             <li>Day 2: <span id="day2">NO NUT</span></li>
             <li>Day 3: <span id="day3"><span id="day3.1">N</span><span id="day3.2">O</span><span> </span><span id="day3.3">N</span><span id="day3.4">U</span><span id="day3.5">T</span></span></li>
             <li>Day 4: <img src="images/day4.png" alt="no nut" id="day4"></li>
-            <li>Day 5: <span id="day4">¬NUT</span></li>
+            <li>Day 5: <span id="day5">¬NUT</span></li>
+            <li>Day 6: <span id="day6">NO NUT</span></li>
         </ul>
     </div>
 
     <script>
-        // DAY 3 SCRIPT START
         var colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
         var colorCounter = 0;
 
+        var bg = ["red", "white"]
+        var bgc = 0
+        var tc = 1
+
         function changeColor() {
+            // day 3
             for (var x = 0; x < 5; x++) {
                 document.getElementById("day3." + (5-x)).style.color = colors[(colorCounter + x) % colors.length];
             }
             colorCounter++;
+
+            // day 6
+            document.getElementById("day6").style.color = bg[tc%2];
+            document.getElementById("day6").style.background = bg[bgc%2];
+            bgc++;
+            tc++;
+
         }
-        // DAY 3 SCRIPT END
 
         window.onload = function() {
             // DAY 3
